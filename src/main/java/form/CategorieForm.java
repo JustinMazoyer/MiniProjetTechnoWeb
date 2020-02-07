@@ -20,7 +20,6 @@ public class CategorieForm implements Serializable {
 	//@NotEmpty
 	@Size(min = 1, max = 255)
 	private String description;
-
 	// Getters, setters
 	
 	public String getLibelle() {
@@ -38,5 +37,4 @@ public class CategorieForm implements Serializable {
 	public void setDescription(final String description) {
 		this.description = description;
 	}
-
 }

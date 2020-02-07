@@ -1,73 +1,76 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import comptoirs.model.dao.ClientFacade;
-import comptoirs.model.entity.Categorie;
-import comptoirs.model.entity.Client;
-import java.math.BigDecimal;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.EJBException;
 import javax.inject.Inject;
-import javax.mvc.Controller;
 import javax.mvc.Models;
-import javax.mvc.View;
-import javax.mvc.binding.BindingResult;
-import javax.validation.executable.ExecutableType;
-import javax.validation.executable.ValidateOnExecution;
-import javax.ws.rs.FormParam;
+import javax.mvc.Controller;
+import javax.ws.rs.BeanParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
-/**
- *
- * @author jmazoyer
- */
+import comptoirs.model.entity.Client;
+import form.ClientForm;
+
+import java.util.List;
+import javax.ejb.EJBException;
+import javax.mvc.View;
+import javax.mvc.binding.BindingResult;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
+import javax.validation.Valid;
+import javax.validation.executable.ExecutableType;
+import javax.validation.executable.ValidateOnExecution;
+
 @Controller
-@Path("cientEditor")
+@Path("clientEditor")
 @View("clientEditor.jsp")
+//@TransactionManagement(TransactionManagementType.BEAN)
 public class ClientEditorController {
+
+    private EntityManagerFactory emf = null;
     @Inject
-	ClientFacade dao;
+    ClientFacade dao;
 
-	@Inject
-	BindingResult formValidationErrors;
-	
-	@Inject
-	Models models;
+    @Inject
+    Client client;
 
-	@GET
-	public void show() {
-		models.put("clients", dao.findAll());
-	}
+    @Inject
+    BindingResult formValidationErrors;
 
-	@POST
-	@ValidateOnExecution(type = ExecutableType.ALL)	
-	public void create(@FormParam("Code") String code,
-		@FormParam("Adresse") String adresse
-                ){
-		if ( ! formValidationErrors.isFailed()) { // Pas d'erreurs de saisie dans le formulaire
-			// On crée la nouvelle catégorie
-			Client nouveau = new Client();
-			nouveau.setCode(code);
-			nouveau.setAdresse(adresse);
-			// On l'enregistre dans la base
-			try {
-				dao.create(nouveau);
-			} catch (EJBException e) {
-				// Erreur possible : il existe déjà une catégorie avec ce libellé
-				Logger.getLogger("Comptoirs").log(Level.INFO, "Echec{0}", e.getLocalizedMessage());
-				// On pourrait examiner l'exception pour vérifier sa cause exacte
-				models.put("databaseErrorMessage", "Le client '" + code + "' existe déjà");
-			}
-		}
-		models.put("validationErrors", formValidationErrors);
-		models.put("clients", dao.findAll());
-	}	
-    
+    @Inject
+    Models models;
+
+    @GET
+    public void show() {
+        models.put("clients", dao.findAll());
+    }
+
+    @POST
+    @ValidateOnExecution(type = ExecutableType.ALL)
+    public void create(@Valid @BeanParam ClientForm formData) {
+        if (!formValidationErrors.isFailed()) {
+            try {
+                final EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("comptoirs");
+                EntityManager em = emFactory.createEntityManager();
+                Client codeClient = em.createNamedQuery("Client.findByCode", Client.class)
+                        .setParameter("code", formData.getCode()).getSingleResult();
+                Client contactClient = em.createNamedQuery("Client.findByContact", Client.class)
+                        .setParameter("contact", formData.getContact()).getSingleResult();
+                if (codeClient.equals(contactClient)) {
+                    models.put("Validé", formData.getContact()+"est connecté(e)");                 
+                }else{
+                     models.put("databaseErrorMessage", "Veuillez ressayer"); 
+                }
+
+            } catch (EJBException e) {
+
+            }
+
+            models.put("validationErrors", formValidationErrors);
+            models.put("clients", dao.findAll());
+        }
+    }
 }
