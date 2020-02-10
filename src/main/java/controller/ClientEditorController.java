@@ -30,12 +30,8 @@ import javax.validation.executable.ValidateOnExecution;
 //@TransactionManagement(TransactionManagementType.BEAN)
 public class ClientEditorController {
 
-    private EntityManagerFactory emf = null;
     @Inject
     ClientFacade dao;
-
-    @Inject
-    Client client;
 
     @Inject
     BindingResult formValidationErrors;
@@ -50,27 +46,21 @@ public class ClientEditorController {
 
     @POST
     @ValidateOnExecution(type = ExecutableType.ALL)
-    public void create(@Valid @BeanParam ClientForm formData) {
+    public String login(@Valid @BeanParam ClientForm formData) {
         if (!formValidationErrors.isFailed()) {
             try {
-                final EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("comptoirs");
-                EntityManager em = emFactory.createEntityManager();
-                Client codeClient = em.createNamedQuery("Client.findByCode", Client.class)
-                        .setParameter("code", formData.getCode()).getSingleResult();
-                Client contactClient = em.createNamedQuery("Client.findByContact", Client.class)
-                        .setParameter("contact", formData.getContact()).getSingleResult();
-                if (codeClient.equals(contactClient)) {
-                    models.put("Validé", formData.getContact()+"est connecté(e)");                 
-                }else{
-                     models.put("databaseErrorMessage", "Veuillez ressayer"); 
+                Client codeClient = dao.find(formData.getCode());
+                if (codeClient.getContact().equals(formData.getContact())) {
+                    return "redirect:/categories";
+                } else {
+                    models.put("databaseErrorMessage", "Le conatct est invalide");
                 }
-
-            } catch (EJBException e) {
-
+            } catch (Exception e) {
+                models.put("databaseErrorMessage", "Le code est invalide");
             }
-
-            models.put("validationErrors", formValidationErrors);
-            models.put("clients", dao.findAll());
         }
+        models.put("validationErrors", formValidationErrors);
+        return null;
+
     }
 }

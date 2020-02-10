@@ -24,12 +24,14 @@ public class ClientForm implements Serializable {
     //@NotEmpty
     @Size(min = 1, max = 255)
     private String Code;
+    
     @MvcBinding
     @FormParam("societe")
     //@NotEmpty
     @Size(min = 1, max = 255)
     private String Societe;
-        @MvcBinding
+    
+    @MvcBinding
     @FormParam("contact")
     //@NotEmpty
     @Size(min = 1, max = 255)

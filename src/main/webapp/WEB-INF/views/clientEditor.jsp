@@ -25,16 +25,12 @@
                         <li><span style="color: red;">${mvc.encoders.html(error.message)}</span></li>
                         </c:forEach>
                 </ul>
-                <input type="submit" value="Valider" method="POST">
+                <input type="submit" value="Valider">
             </form>
             <%-- Est-ce qu'on a un message d'erreur à afficher ? --%>
             <c:if test="${not empty databaseErrorMessage}">
                 <h2>Erreur !</h2>
                 <span style="color: red;">${databaseErrorMessage}</span>
-            </c:if>
-            <c:if test="${not empty Validé}">
-                <h2>Connecté</h2>
-                <span style="color: blue;">${Validé}</span>
             </c:if>
         </div>
     </body>
