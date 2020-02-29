@@ -32,7 +32,7 @@
 		<h2>Produits dans la catégorie '${selected.libelle}'</h2>
 		<%-- On montre la liste des produits dans la catégorie sélectionnée sous la forme d'une table HTML --%>		
 		<table border='1'>
-			<tr><th>Référence</th><th>Nom</th><th>Disponible ?</th></tr>
+			<tr><th>Référence</th><th>Nom</th><th>Prix</th><th>Disponible</th><th>Ajout au panier</th></tr>
 			<%-- Est-ce qu'il y a des produits dans la catégorie sélectionnée ? --%>
 			<c:if test="${empty selected.produitCollection}">
 				<tr><td colspan="3">aucun produit dans cette catégorie</td></tr>	
@@ -42,16 +42,18 @@
 				<tr>
 					<td>${produit.reference}</td>
 					<td>${produit.nom}</td>
+                                        <td>${produit.prix}</td>
 					<td>
 						<input type="checkbox"
 						       <c:if test="${produit.indisponible eq 0}">checked</c:if>
 						>
 					</td>
+                                        
 				</tr>
 			</c:forEach>
 		</table>
 		<hr>
-		<a href="${pageContext.request.contextPath}/">Retour au menu</a>
+		<a href="../client.html">Retour</a>
 	<hr>
 	<h3>Code source</h3>
 	<ul>

@@ -12,14 +12,10 @@ import javax.ws.rs.Path;
 import comptoirs.model.entity.Client;
 import form.ClientForm;
 
-import java.util.List;
-import javax.ejb.EJBException;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
 import javax.mvc.View;
 import javax.mvc.binding.BindingResult;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.validation.Valid;
 import javax.validation.executable.ExecutableType;
 import javax.validation.executable.ValidateOnExecution;
@@ -39,6 +35,9 @@ public class ClientEditorController {
     @Inject
     Models models;
 
+    @Inject // Les infos du joueur, Session scoped
+    private ClientInfo player;
+
     @GET
     public void show() {
         models.put("clients", dao.findAll());
@@ -49,9 +48,14 @@ public class ClientEditorController {
     public String login(@Valid @BeanParam ClientForm formData) {
         if (!formValidationErrors.isFailed()) {
             try {
+                if ((formData.getContact().equals("Admin")) && ((formData.getCode().equals("Admin")))) {
+
+                    return "redirect:../Admin.html";
+                }
                 Client codeClient = dao.find(formData.getCode());
                 if (codeClient.getContact().equals(formData.getContact())) {
-                    return "redirect:/categories";
+                    player.login(formData.getCode());
+                    return "redirect:../client.html";
                 } else {
                     models.put("databaseErrorMessage", "Le conatct est invalide");
                 }

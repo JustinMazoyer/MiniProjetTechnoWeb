@@ -29,6 +29,7 @@ import javax.ws.rs.QueryParam;
 @Controller
 @Path("mdification")
 @View("mdification.jsp")
+
 public class ModificationController {
 
     @Inject
@@ -39,17 +40,31 @@ public class ModificationController {
 
     @Inject
     Models models;
+    @Inject
+    private ClientInfo player;
+
     @GET
     public void show(@QueryParam("code") String codeClient) {
+        codeClient = player.getCode();
         Client c = dao.find(codeClient);
         models.put("client", c);
-
     }
 
-    //@POST
-     //@ValidateOnExecution(type = ExecutableType.ALL)
-     //  public void edit(@Valid @BeanParam ClientForm formData ){
-    //   Client c = dao.find(formData.getAdresse());
-     //  c.setAdresse(formData.getAdresse());
-    // }
+    @POST
+    @ValidateOnExecution(type = ExecutableType.ALL)
+    public void edit(@Valid @BeanParam ClientForm formData) {
+        Client c = dao.find(formData.getCode());
+        c.setSociete(formData.getSociete());
+        c.setContact(formData.getContact());
+        c.setFonction(formData.getFonction());
+        c.setAdresse(formData.getAdresse());
+        c.setVille(formData.getVille());
+        c.setRegion(formData.getRegion());
+        c.setCodePostal(formData.getCodePostal());
+        c.setPays(formData.getPays());
+        c.setTelephone(formData.getTelephone());
+        c.setFax(formData.getFax());
+        dao.edit(c);
+        models.put("client", c);
+    }
 }
