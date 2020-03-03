@@ -57,7 +57,7 @@ public class ClientEditorController {
                     player.login(formData.getCode());
                     return "redirect:../client.html";
                 } else {
-                    models.put("databaseErrorMessage", "Le conatct est invalide");
+                    models.put("databaseErrorMessage", "Le contact est invalide");
                 }
             } catch (Exception e) {
                 models.put("databaseErrorMessage", "Le code est invalide");

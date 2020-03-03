@@ -10,6 +10,7 @@
 	</head>
 
 	<body>
+            <a href="PanierClient">Voir Panier</a>
 		<h3>Choisissez la catégorie à afficher</h3>
 		<form> 	<%-- L'action par défaut est de revenir à l'URL du contrôleur --%>
 			<%-- Une liste de choix pour le paramètre 'code' --%>
@@ -29,35 +30,39 @@
 			</select>
 			<input type='submit'>
 		</form>
-		<h2>Produits dans la catégorie '${selected.libelle}'</h2>
+		<h2>Produits dans la catégorie ${selected.libelle}</h2>
 		<%-- On montre la liste des produits dans la catégorie sélectionnée sous la forme d'une table HTML --%>		
 		<table border='1'>
-			<tr><th>Référence</th><th>Nom</th><th>Prix</th><th>Disponible</th><th>Ajout au panier</th></tr>
-			<%-- Est-ce qu'il y a des produits dans la catégorie sélectionnée ? --%>
-			<c:if test="${empty selected.produitCollection}">
-				<tr><td colspan="3">aucun produit dans cette catégorie</td></tr>	
-			</c:if>
+                    <tr><th>Référence</th><th>Nom</th><th>Prix</th><th>Quantité</th><th>Disponible</th><th>Quantité</th><th>Validation</th></tr>
 			<%-- Une ligne dans la table pour chaque produit --%>				
 			<c:forEach var="produit" items="${selected.produitCollection}">
 				<tr>
 					<td>${produit.reference}</td>
 					<td>${produit.nom}</td>
-                                        <td>${produit.prix}</td>
+                                        <td>${produit.prixUnitaire}</td>
+                                        <td>${produit.quantiteParUnite}</td>
 					<td>
 						<input type="checkbox"
 						       <c:if test="${produit.indisponible eq 0}">checked</c:if>
 						>
 					</td>
-                                        
+                                        <form method="POST" action="">
+                                        <input type="hidden" name="produit" value="${produit.reference}">
+                                        <td>  <c:if test="${produit.indisponible eq 0}">
+                                            <input type="number" value="1" name="quantite">
+                                            </c:if>
+					</td>
+                                        <td>
+                                            <c:if test="${produit.indisponible eq 0}">
+                                        <input type="submit" value="Ajouter au panier">
+                                        </c:if>
+                                        </td>
+                                        </form>
 				</tr>
 			</c:forEach>
 		</table>
 		<hr>
 		<a href="../client.html">Retour</a>
 	<hr>
-	<h3>Code source</h3>
-	<ul>
-		<li><a href="https://bitbucket.org/rbastide/comptoirs_mvc/src/test/src/main/java/controller/CategorieProduitController.java" target="_blank">Le contrôleur</a></li>
-		<li><a href="https://bitbucket.org/rbastide/comptoirs_mvc/src/test/src/main/webapp/WEB-INF/views/categorieProduits.jsp"  target="_blank">La vue</a></li>
-	</ul>		
+        </body>
 </html>
