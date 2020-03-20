@@ -1,8 +1,6 @@
 package controller;
 
-import comptoirs.model.dao.CategorieFacade;
 import comptoirs.model.dao.CommandeFacade;
-import comptoirs.model.entity.Categorie;
 import comptoirs.model.entity.Commande;
 import java.util.List;
 import javax.inject.Inject;
@@ -20,6 +18,8 @@ import javax.ws.rs.Path;
 public class StatsController {
 	@Inject 
 	CommandeFacade dao;
+//    	@Inject 
+//	CategorieFacade dao;
 
 	@Inject
 	Models models;
@@ -28,5 +28,7 @@ public class StatsController {
 	public void show() {
 		List<Commande> toutesLesCommandes = dao.findAll();
 		models.put("commandes", toutesLesCommandes);
+//		List<Categorie> toutesLesCategories = dao.findAll();
+//		models.put("categories", toutesLesCategories);
 	}
 }

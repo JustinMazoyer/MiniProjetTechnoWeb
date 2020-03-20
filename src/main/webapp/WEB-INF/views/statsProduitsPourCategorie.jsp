@@ -29,7 +29,7 @@
 		// Afficher les unités vendues pour la catégorie choisie
 		function doAjax() {
 			$.ajax({
-				url: "service/unitesVendues/chiffreaffaire",
+				url: "service/unitesVendues/chiffreaffaireDate",
 				// Les données saisies dans le formlaire
 				data : $('#formulaireCommande').serialize(),
 				dataType: "json",
@@ -50,9 +50,18 @@
 	<%--<p>Illustre le passage de paramètres dans un appel AJAX</p>--%>
 	<%-- Un formulaire pour choisir la catégorie à afficher --%>
 	<%-- On pourrait également faire un appel AJAX pour aller chercher la liste des catégories --%>
-	
-       
+<!--        <form id="formulaireCommande">
+        	<input name='datedebut' type="date" onchange='doAjax()'>
+       </form>-->
 	<!-- Le graphique apparaît ici -->
+        	<form id="formulaireCommande">
+		<select name='datedebut' onchange='doAjax()'>
+			<c:forEach var="commande" items="${commandes}">
+				<option value='${commande.saisieLe}'>${commande.saisieLe}</option>
+			</c:forEach>
+		</select>
+		<%-- Pas de 'submit', on fait un appel AJAX --%>
+	</form>	
 	<div id="piechart" style="width: 1000px; height: 500px;"></div>
 	<hr>
 	 <a href="../Admin.html">Retour</a>

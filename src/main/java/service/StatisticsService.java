@@ -2,6 +2,7 @@ package service;
 
 import comptoirs.model.dao.StatisticsDao;
 import comptoirs.model.dto.StatsResult;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -30,23 +31,20 @@ public class StatisticsService {
 		return dao.chiffreAffaireCategorieDTO();
 	}
         
-	
-	@GET @Path("ca")
+        @GET @Path("chiffreaffaireDate")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<StatsResult> ca(@QueryParam("saisieLe") Integer codeCategorie) {
-		return dao.chiffreAffaireCategorie2(codeCategorie);
+	public List<StatsResult> chiffreAffaireCategorieDate(@QueryParam("datedebut") Long datedebut) {
+            if(datedebut!=null){
+		return dao.chiffreAffaireCategorieDTO_DATE(new Date(datedebut));
+            }else{
+                return dao.chiffreAffaireCategorieDTO();
+            }
 	}
         
         @GET @Path("chiffreaffairepays")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public List<StatsResult> chiffreAffaireParPays() {
 		return dao.chiffreAffaireParPaysDTO();
-	}
-        
-	@GET @Path("produits")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<StatsResult> produitsVendus(@QueryParam("code") Integer codeCategorie) {
-		return dao.chiffreAffaireCategorie2(codeCategorie);
 	}	
 
 	@GET @Path("vector")
@@ -60,4 +58,9 @@ public class StatisticsService {
 	public List<StatsResult> chiffreAffaireClient() {
 		return dao.chiffreAffaireClientDTO();
 	}
+        @GET @Path("produits")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<StatsResult> produitsVendus(@QueryParam("test") Integer codeCategorie) {
+		return dao.produitsVendusPour(codeCategorie);
+	}	
 }
