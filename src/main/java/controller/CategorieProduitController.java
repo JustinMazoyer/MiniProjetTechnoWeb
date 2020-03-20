@@ -58,7 +58,7 @@ public class CategorieProduitController {
     }
 
     @POST
-    public void ajouter(@FormParam("produit") Integer produitNumero, @FormParam("quantite") short nombre) {
+    public void ajouter(@FormParam("produit") Integer produitNumero, @FormParam("quantite") short nombre, @QueryParam("code") Integer codeCategorie) {
         if (panier == null) {
             panier = new Panier();
         }
@@ -68,6 +68,20 @@ public class CategorieProduitController {
                 panier.addLigne(new LignePanier(p, nombre));
             }
         }
+        final List<Categorie> touteslesCategories = facade.findAll();
+
+        // On cherche la catégorie à partir de son code passé en paramètre
+        Categorie categorieChoisie;
+        if (codeCategorie != null) // Est-ce qu'on a un paramètre ?
+        // On va chercher la catégorie 
+        {
+            categorieChoisie = facade.find(codeCategorie); // Et si on ne trouve pas ?
+        } else // On prend la première de la liste (encore faut-il qu'il y en ait une !)
+        {
+            categorieChoisie = touteslesCategories.get(0);
+        }
         models.put("panier", panier);
+        models.put("categories", touteslesCategories);
+        models.put("selected", categorieChoisie);
     }
 }

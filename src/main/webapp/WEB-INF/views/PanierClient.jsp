@@ -13,23 +13,21 @@
         <title>JSP Page</title>
     </head>
     <body>
-            <h1>Votre panier</h1>
-            <table border='1'>
-                <tr><th>Référence</th><th>Nom du produit</th><th>Quantité</th></tr>
-                <c:forEach var="ligne" items="${panier.lignesPanier}">
-                    <tr>
-                    <td>${ligne.produit.reference}</td>
+        <h1>Votre panier</h1>
+        <table border='1'>
+            <tr><th>Prix Unitaire</th><th>Nom du produit</th><th>Quantité</th></tr>
+                    <c:forEach var="ligne" items="${panier.lignesPanier}">
+                <tr>
+                    <td>${ligne.produit.prixUnitaire}</td>
                     <td>${ligne.produit.nom}</td>
-                    <td>
-                        <input type="number" value="${ligne.quantite}" name="quantite">
-                    </td>
+                    <td>${ligne.quantite}</td>
                     <td>
                         <input type="submit"  value="Supprimer du panier">
                     </td>
-                    </tr>
-                </c:forEach>
-            </table>
-            <br>
-                    <input type="submit" value="Valider le panier">
+                </tr>
+            </c:forEach>
+        </table>
+        <br>
+        <input type="submit" value="Valider le panier">
     </body>
 </html>
