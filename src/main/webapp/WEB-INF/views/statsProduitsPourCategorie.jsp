@@ -62,5 +62,5 @@
 	<!-- Le graphique apparaît ici -->
 	<div id="piechart" style="width: 1000px; height: 500px;"></div>
 	<hr>
-	<a href="${pageContext.request.contextPath}/">Retour au menu</a>
+	 <a href="../Admin.html">Retour</a>
 </body>

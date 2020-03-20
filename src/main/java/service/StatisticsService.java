@@ -29,12 +29,7 @@ public class StatisticsService {
 	public List<StatsResult> chiffreAffaireCategorie() {
 		return dao.chiffreAffaireCategorieDTO();
 	}
-         @GET @Path("chiffreaffaire2")
-	 @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-            public List chiffreAffaireCategorie2() {
-		List result = dao.chiffreAffaireCategorieDTO();
-		return result;
-	}
+        
 	
 	@GET @Path("ca")
 	@Produces(MediaType.APPLICATION_JSON)

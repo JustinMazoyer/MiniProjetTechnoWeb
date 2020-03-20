@@ -17,7 +17,7 @@
 
 		function drawPiechart(result) {
 			// On met le résultat au format attendu par google
-			var data = [['Client', 'Unités vendues']];
+			var data = [['Produit', 'Unités vendues']];
 			result.forEach( ligne => data.push([ligne.libelle, ligne.unites]));
 			var dataTable = google.visualization.arrayToDataTable(data);
 
@@ -45,3 +45,21 @@
 
 	</script>
 </head>
+<body>
+	<h1>Chiffre d'affaire par Client</h1>
+	<%--<p>Illustre le passage de paramètres dans un appel AJAX</p>--%>
+	<%-- Un formulaire pour choisir la catégorie à afficher --%>
+	<%-- On pourrait également faire un appel AJAX pour aller chercher la liste des catégories --%>
+      <%--  <form id="formulaireCategorie">
+            <select name='code' onchange='doAjax()'>
+                <c:forEach var="categorie" items="${categories}">
+                    <option value='${categorie.code}'>${categorie.libelle}</option>
+                </c:forEach>
+            </select>
+            <%-- Pas de 'submit', on fait un appel AJAX 
+        </form>	--%>
+	<!-- Le graphique apparaît ici -->
+	<div id="piechart" style="width: 1000px; height: 500px;"></div>
+	<hr>
+	 <a href="../Admin.html">Retour</a>
+</body>
