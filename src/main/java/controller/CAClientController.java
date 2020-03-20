@@ -21,7 +21,7 @@ import javax.ws.rs.Path;
  */
 @Controller
 @Path("CAClient")
-@View("CAPClient.jsp")
+@View("CAClient.jsp")
 public class CAClientController {
      @Inject 
 	CommandeFacade dao;

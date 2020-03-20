@@ -50,14 +50,7 @@
 	<%--<p>Illustre le passage de paramètres dans un appel AJAX</p>--%>
 	<%-- Un formulaire pour choisir la catégorie à afficher --%>
 	<%-- On pourrait également faire un appel AJAX pour aller chercher la liste des catégories --%>
-         <form id="formulaireCommande">
-            <select name='saisieLe' onchange='doAjax()'>
-                <c:forEach var="commande" items="${commandes}">
-                    <option value='${commande.sasieLe}'>${commande.saisieLe}</option>
-                </c:forEach>
-            </select>
-            <%-- Pas de 'submit', on fait un appel AJAX --%>
-            </form>	
+	
        
 	<!-- Le graphique apparaît ici -->
 	<div id="piechart" style="width: 1000px; height: 500px;"></div>

@@ -55,7 +55,7 @@ public class StatisticsService {
 		List result = dao.unitesVenduesParCategorie();
 		return result;
 	}
-        @GET @Path("chiffreaffairclient")
+        @GET @Path("chiffreaffaireclient")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	public List<StatsResult> chiffreAffaireClient() {
 		return dao.chiffreAffaireClientDTO();

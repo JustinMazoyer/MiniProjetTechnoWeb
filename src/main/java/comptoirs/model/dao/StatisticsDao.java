@@ -44,11 +44,11 @@ public class StatisticsDao {
 
     private static final String CA_PAYS_DTO
             = "SELECT new comptoirs.model.dto.StatsResult"
-            + "(cli.pays,SUM(p.prixUnitaire*li.quantite)) "
-            + "FROM Client cli "
-            + "JOIN cli.produitCollection p "
-            + "JOIN p.ligneCollection li "
-            + "GROUP BY cli.pays";
+            + "(c.paysLivraison, SUM(p.prixUnitaire*li.quantite)) "
+            + "FROM Commande c "
+            + "JOIN c.ligneCollection li "
+            + "JOIN li.produit1 p "
+            + "GROUP BY c.paysLivraison";
 
     private static final String CA_CLIENT_DTO
             = "SELECT new comptoirs.model.dto.StatsResult"
@@ -58,7 +58,7 @@ public class StatisticsDao {
             + "JOIN c.ligneCollection li "
             + "JOIN li.produit1 p "
             + "GROUP BY cl.contact";
-
+    
     @PersistenceContext(unitName = "comptoirs")
     private EntityManager em;
 
