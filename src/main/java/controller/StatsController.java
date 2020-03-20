@@ -1,7 +1,9 @@
 package controller;
 
 import comptoirs.model.dao.CategorieFacade;
+import comptoirs.model.dao.CommandeFacade;
 import comptoirs.model.entity.Categorie;
+import comptoirs.model.entity.Commande;
 import java.util.List;
 import javax.inject.Inject;
 import javax.mvc.Controller;
@@ -17,14 +19,14 @@ import javax.ws.rs.Path;
 @View("statsProduitsPourCategorie.jsp")
 public class StatsController {
 	@Inject 
-	CategorieFacade dao;
+	CommandeFacade dao;
 
 	@Inject
 	Models models;
 
 	@GET
 	public void show() {
-		List<Categorie> toutesLesCategories = dao.findAll();
-		models.put("categories", toutesLesCategories);
+		List<Commande> toutesLesCommandes = dao.findAll();
+		models.put("commandes", toutesLesCommandes);
 	}
 }

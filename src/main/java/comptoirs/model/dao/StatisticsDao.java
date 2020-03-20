@@ -14,7 +14,23 @@ public class StatisticsDao {
 		"FROM Categorie cat " + 
 		"JOIN cat.produitCollection p " + 
 		"JOIN p.ligneCollection li " + 
+                
 		"GROUP BY cat.libelle";
+        
+        private static final String CA_CATEGORIE =
+                "SELECT cat.libelle,li.saisieLe, SUM(p.prixUnitaire*li.quantite)"+
+                "FROM Categorie cat "+
+                "JOIN cat.produitCollection p " + 
+                "JOIN p.ligneCollection li "+
+                "GROUP BY cat.libelle, li.saisieLe";
+                
+        private static final String CA_CATEGORIE_DTO =
+		"SELECT new comptoirs.model.dto.StatsResult" +
+				        "(cat.libelle, li.saisieLe, SUM(p.prixUnitaire*li.quantite)) " + 
+		"FROM Categorie cat " + 
+		"JOIN cat.produitCollection p " + 
+		"JOIN p.ligneCollection li "+
+                "GROUP BY cat.libelle, li.saisieLe";
 	
 	private static final String UNIT_SOLDS_DTO =
 		"SELECT new comptoirs.model.dto.StatsResult" +
@@ -30,17 +46,64 @@ public class StatisticsDao {
 		"FROM Produit p " +
 		"JOIN p.categorie cat " +
 		"JOIN p.ligneCollection li " + 
-		"WHERE cat.code = :code " +
+                "WHERE cat.code = :code " +
 		"GROUP BY p.nom " ;
 	
+        
+        private static final String CA_PAYS =
+                "SELECT cli.pays, SUM(p.prixUnitaire*li.quantite)"+
+                "FROM Client cli "+
+                "JOIN cat.produitCollection p " + 
+                "JOIN p.ligneCollection li "+
+                "GROUP BY cli.pays";
+                
+        private static final String CA_PAYS_DTO =
+		"SELECT new comptoirs.model.dto.StatsResult" +
+				        "(cli.pays,SUM(p.prixUnitaire*li.quantite)) " + 
+		"FROM Client cli " + 
+		"JOIN cat.produitCollection p " + 
+		"JOIN p.ligneCollection li "+
+                "GROUP BY cli.pays";
+        
+        
+        private static final String CA_CLIENT_DTO
+            = "SELECT new comptoirs.model.dto.StatsResult"
+            + "(cl.contact, SUM(p.prixUnitaire*li.quantite)) "
+            + "FROM Client cl "
+            + "JOIN cl.commandeCollection c "
+            + "JOIN c.ligneCollection li "
+            + "JOIN li.produit1 p "
+            + "GROUP BY cl.contact";
+        
+        private static final String CA_CLIENT =
+		"SELECT cli.pays,SUM(p.prixUnitaire*li.quantite)" +				       
+		"FROM Client cli " + 
+		"JOIN cat.produitCollection p " + 
+		"JOIN p.ligneCollection li "+
+                "GROUP BY cli.pays";
+        
+        
 	@PersistenceContext(unitName = "comptoirs")
 	private EntityManager em;
 
 	public List unitesVenduesParCategorie() {
-		Query query = em.createQuery(UNITS_SOLD);
+		Query query = em.createQuery(UNITS_SOLD, StatsResult.class);
 		List results = query.getResultList();
 		return results;
 	}
+        public List chiffreAffaireCategorie() {
+		Query query = em.createQuery(CA_CATEGORIE,StatsResult.class);
+		List results = query.getResultList();
+		return results;
+	}
+        
+        public List<StatsResult> chiffreAffaireCategorieDTO() {
+		Query query = em.createQuery(CA_CATEGORIE_DTO,StatsResult.class);
+		List<StatsResult> results = query.getResultList();
+		return results;
+	}
+        
+        
 
 	public List<StatsResult> unitesVenduesParCategorieDTO() {
 		Query query = em.createQuery(UNIT_SOLDS_DTO, StatsResult.class);
@@ -53,4 +116,32 @@ public class StatisticsDao {
 		List<StatsResult> results = query.setParameter("code", codeCategorie).getResultList();
 		return results;
 	}
+        
+        public List<StatsResult> chiffreAffaireCategorie2(Integer codeCategorie) {
+		Query query = em.createQuery(CA_CATEGORIE_DTO, StatsResult.class);
+		List<StatsResult> results = query.setParameter("saisieLe", codeCategorie).getResultList();
+		return results;
+	}
+        
+         public List chiffreAffaireParPays() {
+		Query query = em.createQuery(CA_PAYS,StatsResult.class);
+		List results = query.getResultList();
+		return results;
+	}
+          public List<StatsResult> chiffreAffaireParPaysDTO() {
+		Query query = em.createQuery(CA_PAYS_DTO,StatsResult.class);
+		List<StatsResult> results = query.getResultList();
+		return results;
+	}
+         public List chiffreAffaireClientDTO() {
+        Query query = em.createQuery(CA_CLIENT, StatsResult.class);
+        List results = query.getResultList();
+        return results;
+    }
+        public List chiffreAffaireClient() {
+		Query query = em.createQuery(CA_CLIENT,StatsResult.class);
+		List results = query.getResultList();
+		return results;
+	}
+        
 }
