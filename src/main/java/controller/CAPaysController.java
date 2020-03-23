@@ -6,7 +6,9 @@
 package controller;
 
 import comptoirs.model.dao.CommandeFacade;
+import comptoirs.model.dao.StatisticsDao;
 import comptoirs.model.entity.Commande;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.mvc.Controller;
@@ -23,15 +25,18 @@ import javax.ws.rs.Path;
 @Path("CAPays")
 @View("CAPays.jsp")
 public class CAPaysController {
-    @Inject 
-	CommandeFacade dao;
 
-	@Inject
-	Models models;
+    @Inject
+    StatisticsDao dao;
 
-	@GET
-	public void show() {
-		List<Commande> toutesLesCommandes = dao.findAll();
-		models.put("commandes", toutesLesCommandes);
-	}
+    @Inject
+    Models models;
+
+    @GET
+    public void show() {
+        Date min = dao.datePlusAncienneCommande();
+        Date max = dao.datePlusRecenteCommande();
+        models.put("minDate", min);
+        models.put("maxDate", max);
+    }
 }
