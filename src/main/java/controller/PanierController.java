@@ -7,10 +7,12 @@ package controller;
 
 import comptoirs.model.dao.ClientFacade;
 import comptoirs.model.dao.CommandeFacade;
+import comptoirs.model.dao.LigneFacade;
 import comptoirs.model.dao.ProduitFacade;
 import comptoirs.model.entity.Client;
 import comptoirs.model.entity.Commande;
 import comptoirs.model.entity.Ligne;
+import comptoirs.model.entity.LignePK;
 import comptoirs.model.entity.LignePanier;
 import comptoirs.model.entity.Panier;
 import comptoirs.model.entity.Produit;
@@ -43,6 +45,9 @@ public class PanierController {
     Panier panier;
 
     @Inject
+    LigneFacade ligneDAO;
+
+    @Inject
     ProduitFacade produit;
 
     @Inject
@@ -73,6 +78,16 @@ public class PanierController {
         commande.setSaisieLe(new Date());
         commande.setRemise(BigDecimal.ZERO);
         commandeDAO.create(commande);
+        LignePK lignepk = new LignePK();
+        lignepk.setCommande(commande.getNumero());
+        for (LignePanier ligne : panier.getLignesPanier()) {
+            lignepk.setProduit(ligne.getProduit().getReference());
+            Ligne nouvelleligne = new Ligne();
+            nouvelleligne.setLignePK(lignepk);
+            nouvelleligne.setQuantite(ligne.getQuantite());
+            ligneDAO.create(nouvelleligne);
+            nouvelleligne.setCommande1(commande);
+        }
         return "redirect:../client.html";
     }
 
