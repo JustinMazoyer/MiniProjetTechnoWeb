@@ -10,6 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -17,6 +20,7 @@ import javax.inject.Named;
  */
 @SessionScoped
 @Named("Panier")
+
 public class Panier implements Serializable{
     private List<LignePanier> lignesPanier;
 
