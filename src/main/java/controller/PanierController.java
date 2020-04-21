@@ -64,31 +64,7 @@ public class PanierController {
     }
 
     @POST
-    public void bouton(@FormParam("action") String action, @FormParam("produit") Integer produitNumero,@FormParam("supprimer") Integer supprimer) {
-        switch (action) {
-
-            case "Supprimer du panier":
-                supprimerProduit(supprimer);
-                break;
-            case "Valider le panier":
-                validerPanier();
-                break;
-        }
-    }
-
-    @POST
-    private void supprimerProduit(Integer supprimer) {
-        Produit p = produit.ReferenceProduit(supprimer);
-        for (LignePanier ligne : panier.getLignesPanier()) {
-            if (ligne.getProduit().getReference().equals(p.getReference())) {
-                panier.getLignesPanier().remove(ligne);
-            }
-        }
-        model.put("panier", panier);
-    }
-
-    @POST
-    private String validerPanier() {
+    public String validerPanier() {
         Commande commande = new Commande();
         Client c = dao.find(player.getCode());
         commande.setClient(c);
