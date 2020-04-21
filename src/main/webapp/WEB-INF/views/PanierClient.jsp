@@ -23,7 +23,7 @@
                     <td>${ligne.produit.nom}</td>
                     <td>${ligne.quantite}</td>
                     <td>
-                        <input type="submit"  value="Supprimer du panier">
+                        <input type="submit" name="action" value="Supprimer du panier">
                         <input type="hidden" name="supprimer" value="${ligne.produit.reference}">
                     </td>
                 </tr>
@@ -31,6 +31,6 @@
         </table>
             
         <br>
-        <input type="submit" value="Valider le panier">
+        <input type="submit" name="action" value="Valider le panier">
     </body>
 </html>
