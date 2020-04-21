@@ -23,7 +23,7 @@
                     <td>${ligne.produit.nom}</td>
                     <td><input type="number"  value="${ligne.quantite}"></td>
                      <td>
-                        <input type="submit"  value="Supprimer du panier" formaction="ModifierQuantite">
+                        <input type="submit"  value="Modifier quantité" formaction="ModifierQuantite">
                         <input type="hidden" name="modifier" value="${ligne.produit.reference}">
                         <input type="hidden" name="quantité" value="${ligne.quantite}">
                     </td>
