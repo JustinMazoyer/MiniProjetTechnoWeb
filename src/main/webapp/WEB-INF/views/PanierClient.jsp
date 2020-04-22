@@ -14,10 +14,11 @@
     </head>
     <body>
         <h1>Votre panier</h1>
-        <form method='POST' action="PanierClient">
+      
         <table border='1'>
             <tr><th>Prix Unitaire</th><th>Nom du produit</th>><th>Quantité</th><th>Modifier</th><th>Supprimer</th></tr>
                     <c:forEach var="ligne" items="${panier.lignesPanier}">
+                  <form method='POST' action="PanierClient">
                 <tr>
                     <td>${ligne.produit.prixUnitaire}</td>
                     <td>${ligne.produit.nom}</td>
@@ -35,6 +36,7 @@
                         <input type="hidden" name="supprimer" value="${ligne.produit.reference}">
                     </td>
                 </tr>
+                  </form>
             </c:forEach>
         </table>
             
