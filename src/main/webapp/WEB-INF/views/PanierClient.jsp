@@ -10,13 +10,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Commande</title>
     </head>
     <body>
         <h1>Votre panier</h1>
-      
+        <form method='POST' action="PanierClient">
         <table border='1'>
-            <tr><th>Prix Unitaire</th><th>Nom du produit</th>><th>Quantité</th><th>Modifier</th><th>Supprimer</th></tr>
+            <tr><th>Prix Unitaire</th><th>Nom du produit</th>><th>Quantité</th><th>Modifier</th><th>Supprimer</th><th>Total</th></tr>
                     <c:forEach var="ligne" items="${panier.lignesPanier}">
                   <form method='POST' action="PanierClient">
                 <tr>
@@ -35,11 +35,23 @@
                         <input type="submit"  value="Supprimer du panier" formaction="SupprimerLigneCommande">
                         <input type="hidden" name="supprimer" value="${ligne.produit.reference}">
                     </td>
+                    <td>${ligne.produit.prixUnitaire * ligne.quantite}</td>
                 </tr>
                   </form>
             </c:forEach>
         </table>
+        </form>
             
+        <br>
+         <%!int res=0;%>
+       <input type="hidden" <c:forEach  var="ligne" items="${panier.lignesPanier}">           
+         ${res=res+ligne.produit.prixUnitaire * ligne.quantite}            
+            </c:forEach>>        
+        <table border='1'>
+             <th>Total commande</th>
+            
+            <td>${res}</td>
+            </table>
         <br>
         <input type="submit" value="Valider le panier">
         <br>
