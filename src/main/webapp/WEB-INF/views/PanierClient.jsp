@@ -47,6 +47,7 @@
        <input type="hidden" <c:forEach  var="ligne" items="${panier.lignesPanier}">           
          ${res=res+ligne.produit.prixUnitaire * ligne.quantite}            
             </c:forEach>>        
+       <input type="hidden" name="totalcommande" value="${res}">
         <table border='1'>
              <th>Total commande</th>
             

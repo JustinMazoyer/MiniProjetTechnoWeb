@@ -64,7 +64,7 @@ public class PanierController {
     }
 
     @POST
-    public String validerPanier() {
+    public String validerPanier(@FormParam("totalcommande") BigDecimal totalcommande) {
         Commande commande = new Commande();
         Client c = dao.find(player.getCode());
         commande.setClient(c);
@@ -76,7 +76,8 @@ public class PanierController {
         commande.setPaysLivraison(c.getPays());
         commande.setEnvoyeeLe(new Date());
         commande.setSaisieLe(new Date());
-        commande.setRemise(BigDecimal.ZERO);
+        commande.setRemise(BigDecimal.ZERO);        
+        commande.setPort(totalcommande);
         commandeDAO.create(commande);
         LignePK lignepk = new LignePK();
         lignepk.setCommande(commande.getNumero());
@@ -88,6 +89,7 @@ public class PanierController {
             ligneDAO.create(nouvelleligne);
             nouvelleligne.setCommande1(commande);
         }
+        panier.getLignesPanier().removeAll(panier.getLignesPanier());
         return "redirect:../client.html";
     }
 
