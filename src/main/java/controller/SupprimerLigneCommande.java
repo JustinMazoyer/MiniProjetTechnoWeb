@@ -55,7 +55,7 @@ public class SupprimerLigneCommande {
 
     @POST
     public void supprimerProduit(@FormParam("supprimer") Integer supprimer) {
-        Produit p = produit.ReferenceProduit(supprimer);
+        Produit p = produit.find(supprimer);
         for (LignePanier ligne : panier.getLignesPanier()) {
             if (ligne.getProduit().getReference().equals(p.getReference())) {
                 panier.getLignesPanier().remove(ligne);

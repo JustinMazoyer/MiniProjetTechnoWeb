@@ -62,7 +62,7 @@ public class CategorieProduitController {
         if (panier == null) {
             panier = new Panier();
         }
-        Produit p = produit.ReferenceProduit(produitNumero);
+        Produit p = produit.find(produitNumero);
         if (p != null) {
             if (p.getUnitesEnStock() >= nombre) {
                 panier.addLigne(new LignePanier(p, nombre));

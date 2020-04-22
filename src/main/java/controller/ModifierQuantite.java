@@ -55,7 +55,7 @@ public class ModifierQuantite {
 
     @POST
     public void ModifierQuantite(@FormParam("modifier") Integer modifier, @FormParam("quantité") short quantité) {
-        Produit p = produit.ReferenceProduit(modifier);
+        Produit p = produit.find(modifier);
         if (p.getUnitesEnStock() >= quantité) {
             for (LignePanier ligne : panier.getLignesPanier()) {
                 if (ligne.getProduit().getReference().equals(p.getReference())) {
