@@ -29,5 +29,7 @@
                 </tr>
             </c:forEach>
         </table>
+        <br>
+        <a href="../client.html">Retour</a>
     </body>
 </html>

@@ -5,11 +5,8 @@
  */
 package controller;
 
-import comptoirs.model.dao.CommandeFacade;
 import comptoirs.model.dao.StatisticsDao;
-import comptoirs.model.entity.Commande;
 import java.util.Date;
-import java.util.List;
 import javax.inject.Inject;
 import javax.mvc.Controller;
 import javax.mvc.Models;

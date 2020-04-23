@@ -12,8 +12,6 @@ import javax.ws.rs.Path;
 import comptoirs.model.entity.Client;
 import form.ClientForm;
 
-import javax.enterprise.context.SessionScoped;
-import javax.inject.Named;
 import javax.mvc.View;
 import javax.mvc.binding.BindingResult;
 import javax.validation.Valid;

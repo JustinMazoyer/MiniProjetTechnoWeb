@@ -15,9 +15,7 @@ import comptoirs.model.entity.Ligne;
 import comptoirs.model.entity.LignePK;
 import comptoirs.model.entity.LignePanier;
 import comptoirs.model.entity.Panier;
-import comptoirs.model.entity.Produit;
 import java.math.BigDecimal;
-import java.net.URI;
 import java.util.Date;
 import javax.inject.Inject;
 import javax.mvc.Controller;
@@ -27,7 +25,6 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.Response;
 
 /**
  *
